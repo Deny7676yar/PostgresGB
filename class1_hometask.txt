@@ -1,0 +1,32 @@
+3. CREATE TABLE products (
+    product_no integer,
+    name text,
+    price numeric
+);
+
+4. CREATE TABLE
+postgres=# INSERT INTO products VALUES (1, 'Asperin', 9.99);
+INSERT 0 1
+postgres=# INSERT INTO products VALUES (1, 'Asperin', 9.99),
+postgres-# (2, 'Analgin', 1.22),
+postgres-# (3, 'Teraphlu', 20.0);
+INSERT 0 3
+
+
+
+5. postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+   
+-----------+----------+----------+------------+------------+--------------------
+---
+ postgres  | selectel | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | selectel | UTF8     | en_US.utf8 | en_US.utf8 | =c/selectel        
+  +
+           |          |          |            |            | selectel=CTc/select
+el
+ template1 | selectel | UTF8     | en_US.utf8 | en_US.utf8 | =c/selectel        
+  +
+           |          |          |            |            | selectel=CTc/select
+el
+(4 rows)
