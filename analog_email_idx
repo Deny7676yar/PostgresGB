@@ -1,0 +1,49 @@
+explain analyze select email, phone from analog_prod where email like 'measmanc%' order by email asc;
+
+Sort  (cost=49.01..49.02 rows=1 width=41) (actual time=0.547..0.549 rows=2 loops=1)
+  Sort Key: email
+  Sort Method: quicksort  Memory: 25kB
+  ->  Seq Scan on analog_prod  (cost=0.00..49.00 rows=1 width=41) (actual time=0.017..0.538 rows=2 loops=1)
+        Filter: ((email)::text ~~ 'measmanc%'::text)
+        Rows Removed by Filter: 1998
+Planning Time: 0.157 ms
+Execution Time: 0.572 ms
+
+
+create index concurrently analog_email_idx on analog_prod using btree (email text_pattern_ops) include (phone);
+
+explain analyze select email, phone from analog_prod where email like 'measmanc%' order by email asc;
+
+Sort  (cost=4.31..4.31 rows=1 width=41) (actual time=0.023..0.023 rows=2 loops=1)
+  Sort Key: email
+  Sort Method: quicksort  Memory: 25kB
+  ->  Index Only Scan using analog_email_idx on analog_prod  (cost=0.28..4.30 rows=1 width=41) (actual time=0.017..0.018 rows=2 loops=1)
+        Index Cond: ((email ~>=~ 'measmanc'::text) AND (email ~<~ 'measmand'::text))
+        Filter: ((email)::text ~~ 'measmanc%'::text)
+        Heap Fetches: 0
+Planning Time: 0.168 ms
+Execution Time: 0.037 ms
+
+
+
+
+
+explain analyze select name from analog_prod where name = 'Voonyx';
+
+Seq Scan on analog_prod  (cost=0.00..49.00 rows=16 width=7) (actual time=0.008..0.206 rows=16 loops=1)
+  Filter: ((name)::text = 'Voonyx'::text)
+  Rows Removed by Filter: 1984
+Planning Time: 0.068 ms
+Execution Time: 0.216 ms
+
+
+CREATE INDEX concurrently analog_name_idx ON analog_prod (name);
+
+explain analyze select name from analog_prod where name = 'Voonyx';
+
+Index Only Scan using analog_name_idx on analog_prod  (cost=0.28..4.56 rows=16 width=7) (actual time=0.035..0.039 rows=16 loops=1)
+  Index Cond: (name = 'Voonyx'::text)
+  Heap Fetches: 0
+Planning Time: 0.275 ms
+Execution Time: 0.061 ms
+
