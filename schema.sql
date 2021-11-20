@@ -13,7 +13,9 @@ CREATE TABLE stores (
             street        VARCHAR(200) NOT NULL,
             numb_street   VARCHAR(200) NOT NULL,
             email         VARCHAR(200) NOT NULL,
-            phone         VARCHAR(100)
+            phone         VARCHAR(100),
+            lon           VARCHAR(100),
+			lat           VARCHAR(100)
 		);
 
 CREATE TABLE products (
@@ -62,5 +64,6 @@ create table analog_prod ( --для тестирования
 	price VARCHAR(50)
 );
 
+create index if not exists idx_store_id_product_id on quantity (store_id, product_id);
 CREATE INDEX concurrently analog_email_idx ON analog_prod USING btree (email text_pattern_ops) include (phone);
 CREATE INDEX concurrently analog_name_idx ON analog_prod (name);

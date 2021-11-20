@@ -1,0 +1,40 @@
+Запрос поиск phone по префиксу email:
+ `select email, phone from analog_prod where email like $1 order by email asc limit $2;`
+
+cfg.MaxConns = 1
+cfg.MinConns = 1
+
+start attack
+duration: 5.17190811s
+threads: 1000
+queries: 30108
+QPS: 6021
+
+cfg.MaxConns = 8
+cfg.MinConns = 4
+
+start attack
+duration: 5.060224632s
+threads: 1000
+queries: 82885
+QPS: 16577
+
+cfg.MaxConns = 20
+cfg.MinConns = 4
+
+start attack
+duration: 5.054756065s
+threads: 1000
+queries: 85605
+QPS: 17121
+
+Оптимальный вариант 
+cfg.MaxConns = 8
+cfg.MinConns = 4
+
+Железо
+используемый процессор: Intel(R) Core(TM) i5-6400 CPU @ 2.70GHz
+количество ядер: 4
+объём оперативной памяти: 6GB
+объём жесткого диска: 500GB
+
